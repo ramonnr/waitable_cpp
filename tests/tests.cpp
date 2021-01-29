@@ -39,9 +39,11 @@ TEST_CASE( "Single producer/consumer" ){
         }
     });
 
+    auto all_meets_expected = true;
     for(int i = 0; i < 20; i++){
-        REQUIRE( bq.pop() == i);
+        all_meets_expected &= bq.pop() == i;
     }
+    REQUIRE(all_meets_expected);
     t.join();
 }
 
@@ -126,9 +128,11 @@ TEST_CASE( "Multiple producers, multiple consumers" ){
         producers[i].join();
     }
 
+    auto all_visited = true;
     for(auto i = 0; i < visited.size(); i++){
-        REQUIRE( visited[i] );
+        all_visited &= visited[i];
     }
+    REQUIRE(all_visited);
 
 }
 
